@@ -1,4 +1,9 @@
-(function () {
+
+function background(chromeBookmarkService) {
+    if (chromeBookmarkService === undefined) {
+        return;
+    }
+
     const BOOKMARKS_TO_KEEP = 10;
 
     var fifoFolderId = "345";
@@ -51,7 +56,10 @@
         moveBookmarkToTop(id, removeSuperfluousNodesFromFifoFolder);
     }
 
-    chrome.bookmarks.onCreated.addListener(createdHandler);
-    chrome.bookmarks.onMoved.addListener(movedHandler);
 
-})();
+    chromeBookmarkService.onCreated.addListener(createdHandler);
+    chromeBookmarkService.onMoved.addListener(movedHandler);
+
+}
+
+background(chrome.bookmarks);
