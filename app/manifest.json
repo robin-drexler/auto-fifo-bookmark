@@ -9,11 +9,22 @@
 
     "description": "Yay, I'm so useless.",
     "permissions": [
-        "bookmarks"
+        "bookmarks",
+        "tabs"
     ],
 
     "background": {
         "scripts": ["/js/background.js"]
+    },
+
+    "commands": {
+        "bookmark-to-fifo": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+D",
+                "mac": "Command+Shift+D"
+            },
+            "description": "Bookmark current page to fifo folder"
+        }
     },
 
     "manifest_version": 2

@@ -1,4 +1,6 @@
 
+var fifoFolderId = "345";
+
 function background(chromeBookmarkService) {
     if (chromeBookmarkService === undefined) {
         return;
@@ -6,7 +8,6 @@ function background(chromeBookmarkService) {
 
     const BOOKMARKS_TO_KEEP = 10;
 
-    var fifoFolderId = "345";
 
     function removeSuperfluousNodesFromFifoFolder() {
         chrome.bookmarks.getSubTree(fifoFolderId, function (fifoFolderNode) {
@@ -62,4 +63,19 @@ function background(chromeBookmarkService) {
 
 }
 
+
 background(chrome.bookmarks);
+
+console.log('here');
+
+chrome.commands.onCommand.addListener(function(command) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        var tab = tabs[0];
+
+        chrome.bookmarks.create({
+            url: tab.url,
+            title: tab.title,
+            parentId: fifoFolderId
+        });
+    });
+});
