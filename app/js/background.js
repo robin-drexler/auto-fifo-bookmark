@@ -1,7 +1,6 @@
 
-var fifoFolderId = "345";
+function background(chromeBookmarkService, fifoFolderId) {
 
-function background(chromeBookmarkService) {
     if (chromeBookmarkService === undefined) {
         return;
     }
@@ -64,18 +63,21 @@ function background(chromeBookmarkService) {
 }
 
 
-background(chrome.bookmarks);
+chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
+    if (!results.length) {
+        return;
+    }
+    background(chrome.bookmarks, results[0].id);
 
-console.log('here');
+    chrome.commands.onCommand.addListener(function(command) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            var tab = tabs[0];
 
-chrome.commands.onCommand.addListener(function(command) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        var tab = tabs[0];
-
-        chrome.bookmarks.create({
-            url: tab.url,
-            title: tab.title,
-            parentId: fifoFolderId
+            chrome.bookmarks.create({
+                url: tab.url,
+                title: tab.title,
+                parentId: results[0].id
+            });
         });
     });
 });
