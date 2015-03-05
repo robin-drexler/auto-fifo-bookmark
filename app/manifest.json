@@ -1,32 +1,29 @@
 {
-    "name": "Recents",
-    "version": "0.0.1",
-    "icons": {
-        "16": "/img/icons/icon_16.png",
-        "48": "/img/icons/icon_48.png",
-        "128": "/img/icons/icon_128.png"
-    },
-
-    "description": "Yay, I'm so useless.",
-    "permissions": [
-        "bookmarks",
-        "tabs",
-        "<all_urls>"
-    ],
-
-    "background": {
-        "scripts": ["/js/background.js"]
-    },
-
-    "commands": {
-        "bookmark-to-fifo": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+D",
-                "mac": "Command+Shift+D"
-            },
-            "description": "Bookmark current page to fifo folder"
-        }
-    },
-
-    "manifest_version": 2
+  "name": "Recents",
+  "version": "0.0.1",
+  "icons": {
+    "16": "/img/icons/icon_16.png",
+    "48": "/img/icons/icon_48.png",
+    "128": "/img/icons/icon_128.png"
+  },
+  "description": "Yay, I'm so useless.",
+  "permissions": [
+    "bookmarks",
+    "tabs",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["/js/background.js"]
+  },
+  "commands": {
+    "bookmark-to-fifo": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+D",
+        "mac": "Command+Shift+D"
+      },
+      "description": "Bookmark current page to fifo folder"
+    }
+  },
+  "manifest_version": 2,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhslRMYSbpHC6b0q22w611UtSHe02W17N0Z/Wepms9/Dyo0KsysrELvdvj/hpS3PJK5RImPpe6vcT31kvvtCFrHks7AiWxjeIOWeXWxwqf2++GYP3gC0S1unsfUhu/4A6rScyDf0XBip3eaMivxqAQSlRphUB1ylfnIXjFWjTft3RfugikoEYULj21ecqjkPFd8HSMhk1VMCspD28gFzjVlc/QjUeX6a7nrlWAy+ne1RF7LJSWZf9v3NcFU4Jx77BKwSzf58izBaShuCCmdQivQIjX+pW5n2DhxYJyeM4wWlQKC3d0GLbbAtIzHtjjH3WMnrXy6KXibkrQC3qw83CowIDAQAB"
 }
