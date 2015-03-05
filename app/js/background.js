@@ -66,8 +66,35 @@ chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
   if (!results.length) {
     return;
   }
-  background(chrome.bookmarks, results[0].id);
 
+
+  var fifoFolderId = results[0].id;
+
+  background(chrome.bookmarks, fifoFolderId);
+
+  chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
+      if (!request.action === 'add') {
+        sendResponse({
+          status: 'error',
+          reason: request.action + ' not found'
+        });
+        return;
+      }
+
+      // XXX maybe checking for title and url might be worth consodering
+      chrome.bookmarks.create({
+        url: request.url,
+        title: request.title,
+        parentId: fifoFolderId
+      }, function () {
+        sendResponse({
+          status: 'success'
+        });
+      });
+
+      // tell chrome sendResponse is going to be resolved async
+      return true;
+    });
 
   chrome.commands.onCommand.addListener(function (command) {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
@@ -76,7 +103,7 @@ chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
       chrome.bookmarks.create({
         url: tab.url,
         title: tab.title,
-        parentId: results[0].id
+        parentId: fifoFolderId
       });
     });
   });
