@@ -73,7 +73,31 @@ chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
   background(chrome.bookmarks, fifoFolderId);
 
   chrome.runtime.onMessageExternal.addListener(function(request, sender, sendResponse) {
-      if (!request.action === 'add') {
+    var actions = {
+      add: function(request, sender, sendResponse) {
+        // XXX maybe checking for title and url might be worth consodering
+        chrome.bookmarks.create({
+          url: request.url,
+          title: request.title,
+          parentId: fifoFolderId
+        }, function () {
+          sendResponse({
+            status: 'success'
+          });
+        });
+      },
+      getAll: function(request, sender, sendResponse) {
+        chrome.bookmarks.getSubTree(fifoFolderId, function (node) {
+          var items = node[0].children.filter(function (item) {
+            return !!item.url;
+          });
+
+          sendResponse(items);
+        });
+      }
+    };
+
+      if (!actions[request.action]) {
         sendResponse({
           status: 'error',
           reason: request.action + ' not found'
@@ -81,16 +105,8 @@ chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
         return;
       }
 
-      // XXX maybe checking for title and url might be worth consodering
-      chrome.bookmarks.create({
-        url: request.url,
-        title: request.title,
-        parentId: fifoFolderId
-      }, function () {
-        sendResponse({
-          status: 'success'
-        });
-      });
+    actions[request.action](request, sender, sendResponse);
+
 
       // tell chrome sendResponse is going to be resolved async
       return true;
