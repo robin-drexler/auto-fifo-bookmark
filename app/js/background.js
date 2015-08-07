@@ -92,7 +92,17 @@ chrome.bookmarks.search({title: '!FIFO!'}, function (results) {
             return !!item.url;
           });
 
-          sendResponse(items);
+          sendResponse({items: items, status: 'success'});
+        });
+      },
+      remove: function (request, sender, sendResponse) {
+        chrome.bookmarks.get(request.id, function (results) {
+          if (results.length === 0 || results[0].parentId != fifoFolderId) {
+            return sendResponse({status: 'error'});
+          }
+          chrome.bookmarks.remove(request.id, function () {
+            sendResponse({status: 'success'});
+          });
         });
       }
     };
